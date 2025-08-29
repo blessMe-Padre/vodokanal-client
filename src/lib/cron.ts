@@ -13,8 +13,8 @@ export function setupCronJobs() {
 
     const cronLogger = createCronLogger();
 
-    // Запуск каждый день в 07:45 по местному времени - (45 00)
-    cron.schedule('45 00 * * *', async () => {
+    // Запуск каждый день в 07:45 по местному времени - (30 00)
+    cron.schedule('30 00 * * *', async () => {
         const now = new Date();
         cronLogger.info('Запуск ежедневной задачи отправки email', {
             serverTime: now.toISOString(),
@@ -43,7 +43,7 @@ export function setupCronJobs() {
             // Получаем дату из имени файла
             const date = filePath.split('_')[1] + '_' + filePath.split('_')[2];
             // Делаем копию файла в tmp/Readings_copy.xlsx
-            fs.copyFileSync(fullPath, path.join(process.cwd(), 'tmp', `copy_${date}.xlsx`));
+            fs.copyFileSync(fullPath, path.join(process.cwd(), 'tmp/copy', `copy_${date}`));
 
             // Проверяем переменные окружения
             const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
@@ -59,7 +59,7 @@ export function setupCronJobs() {
 
                 // Удаляем файл после успешной отправки
                 try {
-                    fs.unlinkSync(filePath);
+                    fs.unlinkSync(fullPath);
                     cronLogger.info('Файл показаний удален после отправки', { fullPath });
                 } catch (deleteError) {
                     const error = deleteError as Error;
@@ -87,7 +87,7 @@ export function setupCronJobs() {
     });
 
     // Запуск каждый день в 07:10 по местному времени - (10 00) для очистки папки documents
-    cron.schedule('10 00 * * *', async () => {
+    cron.schedule('35 00 * * *', async () => {
         try {
             const documentsPath = path.join(process.cwd(), 'public', 'documents');
             if (!fs.existsSync(documentsPath)) return;
