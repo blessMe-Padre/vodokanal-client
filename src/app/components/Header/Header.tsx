@@ -16,7 +16,6 @@ import styles from "./style.module.scss";
 
 import type { Variants } from "framer-motion";
 
-
 type NavLink = {
     title: string;
     href: string;
@@ -43,17 +42,17 @@ const navLinks: NavLink[] = [
         title: "О компании",
         href: "/about"
     },
-    {
-        title: "Передача показаний через сайт",
-        href: "/transmission-of-readings"
-    },
+    // {
+    //     title: "Передача показаний через сайт",
+    //     href: "/transmission-of-readings"
+    // },
     {
         title: "Новости",
         href: "/news"
     },
     {
-        title: "Противодействие коррупции",
-        href: "/anti-corruption"
+        title: "Скачать бланки заявлений",
+        href: "/download-blank"
     },
     {
         title: "Раскрытие информации",
@@ -165,7 +164,6 @@ export default function Header() {
     const toggleMobileMenu = () => {
         setMobileMenuOpened(!mobileMenuOpened);
     };
-
 
     return (
         <header className={styles.header}>
