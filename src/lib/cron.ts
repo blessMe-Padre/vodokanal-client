@@ -14,7 +14,7 @@ export function setupCronJobs() {
     const cronLogger = createCronLogger();
 
     // Запуск каждый день в 07:45 по местному времени - (30 00)
-    cron.schedule('30 00 * * *', async () => {
+    cron.schedule('40 00 * * *', async () => {
         const now = new Date();
         cronLogger.info('Запуск ежедневной задачи отправки email', {
             serverTime: now.toISOString(),
@@ -41,9 +41,15 @@ export function setupCronJobs() {
             }
 
             // Получаем дату из имени файла
-            const date = filePath.split('_')[1] + '_' + filePath.split('_')[2];
+            // const date = filePath.split('_')[1] + '_' + filePath.split('_')[2];
+            // получаем день месяца из new Date
+            // const day = new Date().getDate();
             // Делаем копию файла в tmp/Readings_copy.xlsx
-            fs.copyFileSync(fullPath, path.join(process.cwd(), 'tmp/copy', `copy_${date}`));
+            // fs.copyFileSync(fullPath, path.join(process.cwd(), 'tmp/copy', `copy_${date}`));
+
+            const date = filePath.replace('Readings_', '').replace('.xlsx', '');
+            const day = new Date().getDate();
+            fs.copyFileSync(fullPath, path.join(process.cwd(), 'tmp/copy', `copy_${date}_${day}.xlsx`));
 
             // Проверяем переменные окружения
             const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
